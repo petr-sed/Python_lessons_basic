@@ -2,13 +2,13 @@
 __author__ = 'Sedukin Petr'
 import math
 
-def inp_var(intro_long, intro_short):
+def inp_var(intro_long, intro_short, int_float):
     if intro_long == 0:
-        vr = int(input('Укажите значение переменной ' + intro_short + ': '))
+        vr = int_float(input('Укажите значение переменной ' + intro_short + ': '))
     elif intro_short == 0:
-        vr = int(input(intro_long))
+        vr = int_float(input(intro_long))
     else:
-        vr = int(input(intro_long + ' ' + intro_short + ': '))
+        vr = int_float(input(intro_long + ' ' + intro_short + ': '))
     return vr
 
 def number_splitter(numb_loc):
@@ -21,7 +21,7 @@ def number_splitter(numb_loc):
     return mass_numb
 
 def part_hw_choose():
-    part_hw = inp_var("Выберите часть ДЗ (1, 2, 3): ", 0)
+    part_hw = inp_var("Выберите часть ДЗ (1, 2, 3): ", 0, int)
     if part_hw == 1:
         part_1()
     elif part_hw == 2:
@@ -41,7 +41,7 @@ def part_1():
     # Подсказки:
     # * постарайтесь решить задачу с применением арифметики и цикла while;
     # * при желании и понимании решите задачу с применением цикла for.
-    number = inp_var('Укажите произвольное число: ', 0)
+    number = inp_var('Укажите произвольное число: ', 0, int)
     mass = number_splitter(number)
     l = len(mass)
     a = 0
@@ -58,8 +58,8 @@ def part_2():
     # Подсказки:
     # * постарайтесь сделать решение через действия над числами;
     # * при желании и понимании воспользуйтесь синтаксисом кортежей Python.
-    a = inp_var(0, 'a')
-    b = inp_var(0, 'b')
+    a = inp_var(0, 'a', int)
+    b = inp_var(0, 'b', int)
     a = a+b
     b = a-b
     a = a-b
@@ -73,9 +73,9 @@ def part_3():
     # Для вычисления квадратного корня воспользуйтесь функцией sqrt() модуля math:
     # import math
     # math.sqrt(4) - вычисляет корень числа 4
-    a = inp_var(0, 'a')
-    b = inp_var(0, 'b')
-    c = inp_var(0, 'c')
+    a = inp_var(0, 'a', float)
+    b = inp_var(0, 'b', float)
+    c = inp_var(0, 'c', float)
     d = b**2 - 4*a*c
     if d > 0:
         x1 = (-b+math.sqrt(d))/(2*a)
