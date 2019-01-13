@@ -2,14 +2,14 @@
 __author__ = 'Sedukin Petr'
 import math
 
-def inp_var(intro_long, intro_short, int_float):
+def inp_var(intro_long, intro_short, int_float_str):
     try:
         if intro_long == 0:
-            vr = int_float(input('Укажите значение переменной ' + intro_short + ': '))
+            vr = int_float_str(input('Укажите значение переменной ' + intro_short + ': '))
         elif intro_short == 0:
-            vr = int_float(input(intro_long))
+            vr = int_float_str(input(intro_long))
         else:
-            vr = int_float(input(intro_long + ' ' + intro_short + ': '))
+            vr = int_float_str(input(intro_long + ' ' + intro_short + ': '))
         return vr
     except ValueError or TypeError:
         print('Вы ввели недопустимое значение')
