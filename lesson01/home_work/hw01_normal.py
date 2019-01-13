@@ -3,13 +3,19 @@ __author__ = 'Sedukin Petr'
 import math
 
 def inp_var(intro_long, intro_short, int_float):
-    if intro_long == 0:
-        vr = int_float(input('Укажите значение переменной ' + intro_short + ': '))
-    elif intro_short == 0:
-        vr = int_float(input(intro_long))
-    else:
-        vr = int_float(input(intro_long + ' ' + intro_short + ': '))
-    return vr
+    try:
+        if intro_long == 0:
+            vr = int_float(input('Укажите значение переменной ' + intro_short + ': '))
+        elif intro_short == 0:
+            vr = int_float(input(intro_long))
+        else:
+            vr = int_float(input(intro_long + ' ' + intro_short + ': '))
+        return vr
+    except ValueError or TypeError:
+        print('Вы ввели недопустимое значение')
+        print('Попробуйте еще раз')
+        part_hw_choose()
+
 
 def number_splitter(numb_loc):
     mass_numb = []
