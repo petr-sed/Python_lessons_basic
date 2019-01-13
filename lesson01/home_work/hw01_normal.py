@@ -1,5 +1,29 @@
 
-__author__ = 'Ваши Ф.И.О.'
+__author__ = 'Sedukin Petr'
+import math
+
+def inp_var(intro_long, intro_short):
+    if intro_long == 0:
+        vr = int(input('Укажите значение переменной ' + intro_short + ': '))
+    elif intro_short == 0:
+        vr = int(input(intro_long))
+    else:
+        vr = int(input(intro_long + ' ' + intro_short + ': '))
+    return vr
+
+def number_splitter(numb_loc):
+    mass_numb = []
+    i_loc = 0
+    while numb_loc > 0:
+        mass_numb.insert(-i_loc, numb_loc%10)
+        numb_loc = numb_loc//10
+        i_loc = i_loc+1
+    return mass_numb
+
+
+
+
+
 
 # Задача-1: Дано произвольное целое число, вывести самую большую цифру этого числа.
 # Например, дается x = 58375.
@@ -10,6 +34,15 @@ __author__ = 'Ваши Ф.И.О.'
 # * постарайтесь решить задачу с применением арифметики и цикла while;
 # * при желании и понимании решите задачу с применением цикла for.
 
+number = inp_var('Укажите произвольное число: ', 0)
+mass = number_splitter(number)
+l = len(mass)
+a = 0
+for i in range(l):
+    if a < mass[i]:
+        a = mass[i]
+print('Самая большая цифра числа', number)
+print('Это', a)
 
 # Задача-2: Исходные значения двух переменных запросить у пользователя.
 # Поменять значения переменных местами. Вывести новые значения на экран.
