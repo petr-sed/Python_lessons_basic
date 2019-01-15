@@ -13,17 +13,24 @@
 
 # Подсказка: воспользоваться методом .format()
 
-catalog = ["яблоко", "банан", "киви", "арбуз"]
-length = len(catalog)
-print("Вывод:")
-for i in range(length):
-    print('{number}. {fruit:>8}'.format(number = i+1, fruit = catalog[i]))
+#catalog = ["яблоко", "банан", "киви", "арбуз"]
+#print("Вывод:")
+#for i in range(len(catalog)):
+#    print('{number}. {fruit:>8}'.format(number = i+1, fruit = catalog[i]))
 
 
 
 # Задача-2:
 # Даны два произвольные списка.
 # Удалите из первого списка элементы, присутствующие во втором списке.
+#list_1 = [1, 2, 6, 9, 8, 9, 2, 4, 0]
+#list_2 = [9, 6, 7, 2, 21]
+#print(list_1)
+#print(list_2)
+#for i in range(len(list_2)):
+#    for a in range(list_1.count(list_2[i])):
+#        list_1.pop(list_1.index(list_2[i]))
+#print(list_1)
 
 
 # Задача-3:
