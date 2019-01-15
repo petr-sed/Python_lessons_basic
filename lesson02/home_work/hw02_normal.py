@@ -11,6 +11,7 @@ list_2 = []
 for i in range(len(list_1)):
     if list_1[i] > 0 and math.sqrt(list_1[i])%1 == 0:
         list_2.append(int(math.sqrt(list_1[i])))
+print(list_1)
 print(list_2)
 
 # Задача-2: Дана дата в формате dd.mm.yyyy, например: 02.11.2013.
@@ -20,6 +21,7 @@ print(list_2)
 date = "03.10.2018"
 days = {'01' : 'первое', '02' : 'второе', '03' : 'третье'}
 months = {'10' : 'октября', '11' : 'ноября', '12' : 'декабря'}
+print(date)
 print ("{} {} {} года".format(days[date[0:2]], months[date[3:5]], date[-4:]))
 
 # Задача-3: Напишите алгоритм, заполняющий список произвольными целыми числами
@@ -41,3 +43,17 @@ print(list_1)
 # б) элементы исходного списка, которые не имеют повторений:
 # например, lst = [1 , 2, 4, 5, 6, 2, 5, 2], нужно получить lst2 = [1, 4, 6]
 
+lst = [1, 2, 2, 5, 4, 5, 6, 2, 5, 2]
+lst_2 = []
+for i in range(len(lst)):
+    if lst_2.count(lst[i]) == 0:
+        lst_2.append(lst[i])
+print(lst)
+print(lst_2)
+
+
+lst_2.clear()
+for i in range(len(lst)):
+   if lst.count(lst[i]) == 1:
+       lst_2.append(lst[i])
+print(lst_2)
