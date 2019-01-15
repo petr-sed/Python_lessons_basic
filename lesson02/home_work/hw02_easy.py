@@ -13,6 +13,13 @@
 
 # Подсказка: воспользоваться методом .format()
 
+catalog = ["яблоко", "банан", "киви", "арбуз"]
+length = len(catalog)
+print("Вывод:")
+for i in range(length):
+    print('{number}. {fruit:>8}'.format(number = i+1, fruit = catalog[i]))
+
+
 
 # Задача-2:
 # Даны два произвольные списка.
