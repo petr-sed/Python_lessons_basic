@@ -5,12 +5,18 @@
 # Для решения задачи не используйте встроенные функции и функции из модуля math.
 
 def my_round(number, ndigits):
-    pass
+   number = int(number*(10**(ndigits+1)))
+   if number%10 >= 5:
+       number = number//10+1
+   else:
+       number = number//10
+   number = number/(10**ndigits)
+   return(number)
 
 
-print(my_round(2.1234567, 5))
+print(my_round(2.1234567, 2))
 print(my_round(2.1999967, 5))
-print(my_round(2.9999967, 5))
+print(my_round(2.9999967, 13))
 
 
 # Задание-2:
