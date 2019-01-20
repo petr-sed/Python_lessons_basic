@@ -26,9 +26,12 @@ print(my_round(2.9999967, 13))
 # !!!P.S.: функция не должна НИЧЕГО print'ить
 
 def lucky_ticket(ticket_number):
-    pass
-
+   list_ticket = list(map(int,str(ticket_number)))
+   if sum(list_ticket[:3]) - sum(list_ticket[3:]) == 0:
+       return("Счастливый билет")
+   else:
+       return("Попробуйте еще")
 
 print(lucky_ticket(123006))
-print(lucky_ticket(12321))
+print(lucky_ticket(123217))
 print(lucky_ticket(436751))
