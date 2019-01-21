@@ -30,7 +30,16 @@ print(sort_to_max([2, 10, -12, 2.5, 20, -11, 4, 4, 0]))
 # Напишите собственную реализацию стандартной функции filter.
 # Разумеется, внутри нельзя использовать саму функцию filter.
 
+list_old = ['сорняк', 'зерно', 'сорняк', 'зерно', 'сорняк', 'сорняк', 'зерно']
 
+def my_filter(list_for_filter, name):
+    list_filter = list_for_filter.count(name)
+    list_new = []
+    for i in range(list_filter):
+        list_new.append(name)
+    return(list_new)
+
+print(my_filter(list_old, 'зерно'))
 # Задача-4:
 # Даны четыре точки А1(х1, у1), А2(x2 ,у2), А3(x3 , у3), А4(х4, у4).
 # Определить, будут ли они вершинами параллелограмма.
