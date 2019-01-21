@@ -31,3 +31,14 @@
 # Подсказка:
 # Чтобы получить список больших букв русского алфавита:
 # print(list(map(chr, range(ord('А'), ord('Я')+1))))
+import os
+with open(os.path.join('data', 'fruits.txt'), "r", encoding="utf-8") as file:
+    for line in file:
+        fr = str(line)
+        if fr != '\n':
+            lit = fr[0]
+            fl_name = 'fruits_%s%s' %(lit, '.txt')
+            print(fl_name)
+            with open(os.path.join('data', fl_name), "a", encoding="utf-8") as file:
+               file.write(fr)
+
