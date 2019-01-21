@@ -19,9 +19,12 @@ print(fibonacci(5,9))
 
 
 def sort_to_max(origin_list):
-    pass
+    new_list = []
+    for i in range(len(origin_list)):
+        new_list.append(origin_list.pop(origin_list.index(min(origin_list))))
+    return(new_list)
 
-sort_to_max([2, 10, -12, 2.5, 20, -11, 4, 4, 0])
+print(sort_to_max([2, 10, -12, 2.5, 20, -11, 4, 4, 0]))
 
 # Задача-3:
 # Напишите собственную реализацию стандартной функции filter.
