@@ -17,6 +17,25 @@
 # то их ЗП уменьшается пропорционально, а за заждый час переработки
 # они получают удвоенную ЗП, пропорциональную норме.
 # Кол-во часов, которые были отработаны, указаны в файле "data/hours_of"
+import os
+"""
+stroka = []
+stroka_2 = []
+summa = 0
+#открываю файл "workers" построчно присваиваю значения переменной в виде массива
+with open(os.path.join('data', 'workers'), "r", encoding = "utf=8") as file:
+    for line in file:
+        stroka = line.split()
+        #открываю второй файл и построчно ищу нужную строку по соостветствию имени и фамилии
+        with open(os.path.join('data', 'hours_of'), "r", encoding = "utf=8") as scnd_file:
+            for line_1 in scnd_file:
+                stroka_2 = line_1.split()
+                #найдя строку имя и фамилия в которой совпадают с искомыми вытаскиваю значение отработанных часов
+                if stroka[0] == stroka_2[0] and stroka[1] == stroka_2[1] and stroka[0] != 'Имя':
+                   summa = summa + (int(stroka_2[2])/int(stroka[4]))*int(stroka[2])
+print(int(round(summa, 0)))
+"""
+
 
 
 # Задание-3:
@@ -31,14 +50,15 @@
 # Подсказка:
 # Чтобы получить список больших букв русского алфавита:
 # print(list(map(chr, range(ord('А'), ord('Я')+1))))
-import os
+"""
 with open(os.path.join('data', 'fruits.txt'), "r", encoding="utf-8") as file:
     for line in file:
         fr = str(line)
         if fr != '\n':
             lit = fr[0]
             fl_name = 'fruits_%s%s' %(lit, '.txt')
-            print(fl_name)
+            #print(fl_name)
             with open(os.path.join('data', fl_name), "a", encoding="utf-8") as file:
                file.write(fr)
+"""
 
