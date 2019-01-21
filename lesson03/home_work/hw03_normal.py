@@ -44,3 +44,25 @@ print(my_filter(list_old, 'зерно'))
 # Даны четыре точки А1(х1, у1), А2(x2 ,у2), А3(x3 , у3), А4(х4, у4).
 # Определить, будут ли они вершинами параллелограмма.
 
+#Принимаю координаты точек в виде четырех массивов, первой точкой считается верхняя левая
+#Ввод строго по-порядку
+first_point = [3, 7]
+second_point = [10, 7]
+third_point = [10, 2]
+fourth_point = [3, 2]
+# Исхожу из того, что у параллелограмма x1 = x4, x2 = x3, y1 = y2, y3 = y4
+def paral_valid(frst_point, scnd_point, thrd_point, frth_point):
+    # для того, чтобы исключить длиное условие в if ввожу дополительныю переменную
+    valid = (frst_point[0]-frth_point[0])+(scnd_point[0]-thrd_point[0])
+    valid = valid + (frst_point[1]-scnd_point[1])+(thrd_point[1]-frth_point[1])
+    if valid == 0:
+        return("Фигура, образованная указанными точками, является пераллелограммом.")
+    else:
+        return ("Фигура, образованная указанными точками, не является пераллелограммом.")
+
+print(paral_valid(first_point, second_point, third_point, fourth_point ))
+
+
+
+
+
