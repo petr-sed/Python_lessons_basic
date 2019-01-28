@@ -42,7 +42,7 @@ print(list_drs())
 
 # Задача-3:
 # Напишите скрипт, создающий копию файла, из которого запущен данный скрипт.
-
+dir_path = os.getcwd()
 script_nm = os.path.basename(__file__)
 script_nm = os.path.join(dir_path, script_nm)
 
