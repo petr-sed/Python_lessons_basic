@@ -18,16 +18,16 @@ def make_dir(name, stat, path = os.getcwd()):
             print("Папка {} создана".format(name))
         elif stat is "stat_del":
             print("Папка {} не сущеcтвует".format(name))
-"""
-path = os.getcwd()
-list_dirs = os.listdir(path)
-for i in range(1, 10):
-    dir_nm = "dir_%s" % i
-    if dir_nm in list_dirs:
-        make_dir(dir_nm, "stat_del")
-    else:
-        make_dir(dir_nm, "stat_write")
-"""
+if __name__ == "__main__":
+    path = os.getcwd()
+    list_dirs = os.listdir(path)
+    for i in range(1, 10):
+        dir_nm = "dir_%s" % i
+        if dir_nm in list_dirs:
+            make_dir(dir_nm, "stat_del")
+        else:
+            make_dir(dir_nm, "stat_write")
+
 
 # Задача-2:
 # Напишите скрипт, отображающий папки текущей директории.
@@ -36,22 +36,24 @@ def list_drs(path = os.getcwd()):
     list_dirs = os.listdir(path)
     list_new = list(item for item in list_dirs if item.find('.') is -1)
     return(list_new)
-"""
-print(list_drs())
-"""
+
+if __name__ == "__main__":
+    print(list_drs())
+
 # Задача-3:
 # Напишите скрипт, создающий копию файла, из которого запущен данный скрипт.
-"""
-dir_path = os.getcwd()
-script_nm = os.path.basename(__file__)
-script_nm = os.path.join(dir_path, script_nm)
 
-script_copy = script_nm[0: script_nm.find('.')]+ '_copy.py'
-with open(script_nm, 'r', encoding='UTF-8') as f:
-    content = f.readlines()
-with open(script_copy, 'w', encoding='UTF-8')as f:
-    for index in content:
-        f.write(index + '\n')
-"""
+if __name__ == "__main__":
+    dir_path = os.getcwd()
+    script_nm = os.path.basename(__file__)
+    script_nm = os.path.join(dir_path, script_nm)
+
+    script_copy = script_nm[0: script_nm.find('.')]+ '_copy.py'
+    with open(script_nm, 'r', encoding='UTF-8') as f:
+        content = f.readlines()
+    with open(script_copy, 'w', encoding='UTF-8')as f:
+        for index in content:
+            f.write(index + '\n')
+
 
 
