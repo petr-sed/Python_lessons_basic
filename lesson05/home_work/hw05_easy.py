@@ -24,3 +24,17 @@ print(list_new)
 # Задача-3:
 # Напишите скрипт, создающий копию файла, из которого запущен данный скрипт.
 
+
+script_nm = os.path.basename(__file__)
+script_nm = os.path.join(dir_path, script_nm)
+script_copy = script_nm[0: script_nm.find('.')]+ '_copy.py'
+content = ''
+with open(script_nm, 'r', encoding='UTF-8') as f:
+    content = f.readlines()
+with open(script_copy, 'w', encoding='UTF-8')as f:
+    for index in content:
+        f.write(index + '\n')
+
+
+
+
