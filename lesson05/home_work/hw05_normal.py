@@ -22,6 +22,7 @@ def deal(punkt):
         print(list_drs())
         path = input("Выберите папку, в которую хотите перейти:")
         os.chdir(path)
+        print("Программа перешла в папку {}".format(os.getcwd()))
 
     if punkt is '2':
         print(list_drs())
