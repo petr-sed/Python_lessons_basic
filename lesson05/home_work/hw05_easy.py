@@ -3,9 +3,8 @@
 # из которой запущен данный скрипт.
 # И второй скрипт, удаляющий эти папки.
 import os
-
-#dir_path = os.path.join(os.getcwd(), "dir_1")
-list_dirs = os.listdir()
+dir_path = os.path.join(os.getcwd())
+list_dirs = os.listdir(dir_path)
 for i in range(1, 10):
     dir_nm = "dir_%s" % i
     if dir_nm in list_dirs:
