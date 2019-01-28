@@ -32,15 +32,17 @@ for i in range(1, 10):
 
 # Задача-2:
 # Напишите скрипт, отображающий папки текущей директории.
-"""
-print(list_dirs)
-list_new = list(item for item in list_dirs if item.find('.') is -1)
-print(list_new)
-"""
+
+def list_drs(path = os.getcwd()):
+    list_dirs = os.listdir(path)
+    list_new = list(item for item in list_dirs if item.find('.') is -1)
+    return(list_new)
+
+print(list_drs())
+
 # Задача-3:
 # Напишите скрипт, создающий копию файла, из которого запущен данный скрипт.
 
-"""
 script_nm = os.path.basename(__file__)
 script_nm = os.path.join(dir_path, script_nm)
 
@@ -51,7 +53,6 @@ with open(script_nm, 'r', encoding='UTF-8') as f:
 with open(script_copy, 'w', encoding='UTF-8')as f:
     for index in content:
         f.write(index + '\n')
-"""
 
 
 
