@@ -22,28 +22,23 @@ def deal(punkt):
         print(list_drs())
         path = input("Выберите папку, в которую хотите перейти:")
         os.chdir(path)
-        prod = input("Хотите продолжить? Y/N")
-        if prod is 'Y':
-            start()
+
     if punkt is '2':
         print(list_drs())
-        prod = input("Хотите продолжить? Y/N")
-        if prod is 'Y':
-            start()
+
     if punkt is '3':
         print(list_drs())
         name = input("Укажите название папки, которую хотите удалить")
         make_dir(name, "stat_del")
-        prod = input("Хотите продолжить? Y/N")
-        if prod is 'Y':
-            start()
+
     if punkt is '4':
         print(list_drs())
         name = input("Укажите название папки, которую хотите cjplfnm")
         make_dir(name, "stat_write")
-        prod = input("Хотите продолжить? Y/N")
-        if prod is 'Y':
-            start()
+
+    prod = input("Хотите продолжить? Y/N")
+    if prod is 'Y':
+        start()
 
 def start():
    punkt = input("Выберите действие:\n1. Перейти в папку\n2. Просмотреть содержимое текущей папки\n3. Удалить папку\n4. Создать папку")
