@@ -20,10 +20,9 @@ class TrEug:
     def sides(self):
         TrEug.orient(self)
         side = lambda p1, p2 : math.sqrt((int(p1[0]) - int(p2[0]))**2 + (int(p1[1]) - int(p2[1]))**2)
-        r_side = lambda r : round(r, 2)
-        side_a = r_side(side(self.point_a, self.point_b))
-        side_b = r_side(side(self.point_b, self.point_c))
-        side_c = r_side(side(self.point_c, self.point_a))
+        side_a = side(self.point_a, self.point_b)
+        side_b = side(self.point_b, self.point_c)
+        side_c = side(self.point_c, self.point_a)
 
         return side_a, side_b, side_c, 2
 
@@ -32,7 +31,7 @@ class TrEug:
         list_sides = list(TrEug.sides(self))
         per = list_sides[0] + list_sides[1] + list_sides[2]
 
-        return per
+        return round(per, 2)
 
 
     def visota(self):
@@ -47,10 +46,9 @@ class TrEug:
         v = TrEug.visota(self)
         f = (list_sides[1]*v)/2
 
-        return round(f,2)
+        return round(f, 2)
 
-TrEug_1 = TrEug([-2, -2], [1, 1], [2, -3])
-
+TrEug_1 = TrEug([-8, 6], [9, 6], [2, -3])
 print(TrEug_1.perimetr())
 print(TrEug_1.visota())
 print(TrEug_1.face())
