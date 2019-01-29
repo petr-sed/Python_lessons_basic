@@ -15,3 +15,22 @@
 #  (Ученик --> Класс --> Учителя --> Предметы)
 # 4. Узнать ФИО родителей указанного ученика
 # 5. Получить список всех Учителей, преподающих в указанном классе
+import os
+class klass:
+    def __init__(self, name):
+        self.name = name
+
+class Teacher:
+    def __init__(self, name):
+        self.name = name
+    def add_teacher(self, name, predmet):
+        with open('teachers.py', 'w', encoding='UTF-8') as f:
+            f.write("{} : {}".format(name, predmet))
+
+
+
+class student:
+    def __init__(self, name):
+        self.name = name
+
+Teacher.add_teacher(self, 'Ivanov I.I', 'Algebra')
