@@ -81,11 +81,6 @@ class TrapRavn:
         if self.point_c[0] < self.point_d[0]:
             self.point_c, self.point_d = self.point_d, self.point_c
 
-        print(self.point_a)
-        print(self.point_b)
-        print(self.point_c)
-        print(self.point_d)
-
     def sides(self):
         TrapRavn.orient(self)
         side = lambda p1, p2: sqrt((int(p1[0]) - int(p2[0])) ** 2 + (int(p1[1]) - int(p2[1])) ** 2)
@@ -94,9 +89,22 @@ class TrapRavn:
         side_c = side(self.point_c, self.point_d)
         side_d = side(self.point_d, self.point_a)
 
-        return (side_a, side_b, side_c, side_d) if side_b == side_d else "Фигура не является равнобочной трапецией"
+        return (side_a, side_b, side_c, side_d) if side_b == side_d else "Фигура не является равнобокой трапецией"
 
+    def dlina(self):
+        dl = list(TrapRavn.sides(self))
+        dl = list(round(item, 2) for item in dl)
+        answer = ("Сторона AB = {}\nСторона BC = {}\nСторона CD = {}\nСторона DA = {}".format(dl[0], dl[1], dl[2], dl[3]))
+        return answer
 
-TrapRavn_1 = TrapRavn([3, 4], [-7, -2], [-5, 4], [5, -2])
-TrapRavn_1.orient()
-print(TrapRavn_1.sides())
+    def perimetr(self):
+        dl = list(TrapRavn.sides(self))
+        per = round(sum(dl), 2)
+        return per
+
+    def face(self):
+        dl = list(TrapRavn.sides(self))
+        h = sqrt(dl[1]**2 - (dl[2]-dl[0])**2)
+        s = (dl[0]+dl[2])*h/2
+        return round(s, 2)
+
