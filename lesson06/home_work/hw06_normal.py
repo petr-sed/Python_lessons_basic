@@ -16,21 +16,55 @@
 # 4. Узнать ФИО родителей указанного ученика
 # 5. Получить список всех Учителей, преподающих в указанном классе
 import os
-class klass:
-    def __init__(self, name):
-        self.name = name
-
-class Teacher:
-    def __init__(self, name):
-        self.name = name
-    def add_teacher(self, name, predmet):
-        with open('teachers.py', 'w', encoding='UTF-8') as f:
-            f.write("{} : {}".format(name, predmet))
-
-
 
 class student:
     def __init__(self, name):
         self.name = name
 
-Teacher.add_teacher(self, 'Ivanov I.I', 'Algebra')
+    def add_student(self, klass, parents):
+        with open("students.txt", 'a') as file_stud:
+            file_stud.write("{}; {}; {}\n".format(self.name, klass, parents))
+        list_klasses = []
+        klass = klass+'_students'
+        with open("klass.txt", 'r') as file_klass:
+           for line in file_klass:
+               list_klasses.append(line[:-1])
+        if klass in list_klasses:
+            ind = list_klasses.index(klass)
+            list_klasses.insert(ind+1, self.name)
+            str_klasses = ''
+            for i in list_klasses:
+                str_klasses = str_klasses + i + '\n'
+            with open("klass.txt", 'w') as file_klass:
+                file_klass.write(str_klasses)
+        else:
+            with open("klass.txt", 'a') as file_klass:
+                file_klass.write("{}\n{}\n".format(klass, self.name))
+
+
+
+
+
+    def add_teacher(self, klass, lesson):
+        with open("teachers.txt", 'a') as file_stud:
+             file_stud.write("{}; {}; {}\n".format(self.name, klass, lesson))
+        list_klasses = []
+        klass = klass + '_lessons'
+        with open("klass.txt", 'r') as file_klass:
+            for line in file_klass:
+                list_klasses.append(line[:-1])
+        if klass in list_klasses:
+            ind = list_klasses.index(klass)
+            list_klasses.insert(ind + 1, "{} : {}".format(lesson, self.name))
+            str_klasses = ''
+            for i in list_klasses:
+                str_klasses = str_klasses + i + '\n'
+            with open("klass.txt", 'w') as file_klass:
+                file_klass.write(str_klasses)
+        else:
+            with open("klass.txt", 'a') as file_klass:
+                file_klass.write("{}\n{} : {}\n".format(klass, lesson, self.name))
+
+teacher_1 = student("Teacher1 A.B.")
+teacher_1.add_teacher("5c", "algebra")
+

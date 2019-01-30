@@ -1,0 +1,10 @@
+5a_students
+Karpov A.B.
+5b_students
+Toropov A.B.
+Karlov A.B.
+Ivanov A.B.
+5c_students
+Tpov A.B.
+5c_lessons
+algebra : Teacher1 A.B.
