@@ -17,54 +17,25 @@
 # 5. Получить список всех Учителей, преподающих в указанном классе
 import os
 
-class student:
-    def __init__(self, name):
-        self.name = name
+class Klass:
+    def __init__(self, name_kl):
+        self.name_kl = name_kl
 
-    def add_student(self, klass, parents):
-        with open("students.txt", 'a') as file_stud:
-            file_stud.write("{}; {}; {}\n".format(self.name, klass, parents))
-        list_klasses = []
-        klass = klass+'_students'
-        with open("klass.txt", 'r') as file_klass:
-           for line in file_klass:
-               list_klasses.append(line[:-1])
-        if klass in list_klasses:
-            ind = list_klasses.index(klass)
-            list_klasses.insert(ind+1, self.name)
-            str_klasses = ''
-            for i in list_klasses:
-                str_klasses = str_klasses + i + '\n'
-            with open("klass.txt", 'w') as file_klass:
-                file_klass.write(str_klasses)
-        else:
-            with open("klass.txt", 'a') as file_klass:
-                file_klass.write("{}\n{}\n".format(klass, self.name))
+    def add_klass(self, lessons :list):
+        lessons = str(lessons)
+        return "Klass added: "+lessons
 
+    def klass_info(self, param):
+        return "Klass info"+param
 
+class Stud (Klass):
+    def add_stud(self, name_stud, parents_stud):
+        add_string = "{}, {}, {}".format(self.name_kl, name_stud, parents_stud)
+        return add_string
+    def stud_info(self, name_stud, param):
+        return "{}, {}".format(name_stud, param)
 
-
-
-    def add_teacher(self, klass, lesson):
-        with open("teachers.txt", 'a') as file_stud:
-             file_stud.write("{}; {}; {}\n".format(self.name, klass, lesson))
-        list_klasses = []
-        klass = klass + '_lessons'
-        with open("klass.txt", 'r') as file_klass:
-            for line in file_klass:
-                list_klasses.append(line[:-1])
-        if klass in list_klasses:
-            ind = list_klasses.index(klass)
-            list_klasses.insert(ind + 1, "{} : {}".format(lesson, self.name))
-            str_klasses = ''
-            for i in list_klasses:
-                str_klasses = str_klasses + i + '\n'
-            with open("klass.txt", 'w') as file_klass:
-                file_klass.write(str_klasses)
-        else:
-            with open("klass.txt", 'a') as file_klass:
-                file_klass.write("{}\n{} : {}\n".format(klass, lesson, self.name))
-
-teacher_1 = student("Teacher1 A.B.")
-teacher_1.add_teacher("5c", "algebra")
-
+class Teach (Klass):
+    def add_teach(self, teach_name, lesson):
+        add_string = "{}, {}, {}".format(self, lesson, teach_name)
+        return add_string
