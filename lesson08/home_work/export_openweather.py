@@ -23,10 +23,18 @@
 import csv
 import json
 
-with open("city.list.json", "r", encoding='utf-8') as read_sity:
-    line_prew = ''
-    for line in read_sity:
-        if '"Sochi"' in line:
-            print(line)
-            print(line_prew)
-        line_prew = line
+
+def find_id(sity_name):
+    with open("city.list.json", "r", encoding='utf-8') as read_sity:
+        line_prew = ''
+        sity_id = ''
+        for line in read_sity:
+            if '"{}"'.format(sity_name) in line:
+                sity_id = line_prew[10:-2]
+            line_prew = line
+    if sity_id is '':
+       sity_id = "No sity"
+    return sity_id
+
+
+print(find_id("Sochi"))
