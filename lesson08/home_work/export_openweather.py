@@ -22,3 +22,11 @@
 
 import csv
 import json
+
+with open("city.list.json", "r", encoding='utf-8') as read_sity:
+    line_prew = ''
+    for line in read_sity:
+        if '"Sochi"' in line:
+            print(line)
+            print(line_prew)
+        line_prew = line
