@@ -22,6 +22,7 @@
 
 import csv
 import json
+import urllib.request
 
 
 def find_id(sity_name):
@@ -37,4 +38,10 @@ def find_id(sity_name):
     return sity_id
 
 
-print(find_id("Sochi"))
+def get_weather(sity_id):
+    html =  urllib.request.urlopen('http://samples.openweathermap.org/data/2.5/forecast?id=524901&appid=b1b15e88fa797225412429c1c50c122a1')
+    f = html.read()
+    print(f)
+
+
+
