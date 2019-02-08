@@ -205,6 +205,8 @@ class Forecast:
         return self.weather
 
     def split_weather(self):
+        Forecast.get_apiid(self)
+        Forecast.get_weather(self)
         self.date =finder(self.weather, '"dt":', ',')
         #self.date = time.ctime(int(date))
         self.temp = finder(self.weather, '"temp":', ",")
@@ -212,54 +214,53 @@ class Forecast:
         return self.date, self.temp, self.weather_id
 
 class DBase:
-    file_name = "weather.txt"
-    table_name = "weather_in_sity"
-    sity_id =''
-    sity_name=''
-    country=''
-    date=''
-    temp = ''
-    weather_id = ''
-    def __init__(self, sity_id, sity_name, country, date, temp, weather_id):
-        self.sity_id = sity_id
-        self.sity_name = sity_name
-        self.country = country
-        self.date = date
-        self.temp = temp
-        self.weather_id = weather_id
+    #file_name = "weather.txt"
+    #table_name = "weather_in_sity"
 
-    def make_db(self):
-        conn = sqlite3.connect(self.file_name)
-        cursor = conn.cursor()
-        cursor.execute('CREATE TABLE IF NOT EXISTS {} (sity_id  PRIMARY KEY, sity_name VARCHAR, '
-                       'country VARCHAR, dt VARCHAR, temp INTEGER, weather_id VARCHAR)'.format(self.table_name))
+
+    def __init__(self, file_name, table_name):
+        self.file_name = file_name
+        self.table_name = table_name
+
+    def make_db(self, sity_id, sity_name, country, date, temp, weather_id):
+        conn_wr = sqlite3.connect(self.file_name)
+        cursor_wr = conn_wr.cursor()
+        cursor_wr.execute('CREATE TABLE IF NOT EXISTS {} (sity_id  PRIMARY KEY, sity_name VARCHAR,'
+                          'country VARCHAR, dt VARCHAR, temp INTEGER, weather_id VARCHAR)'.format(self.table_name))
         try:
-            cursor.execute('INSERT INTO {} VALUES (?, ?, ?, ?, ?, ?)'.format(self.table_name),
-                           (self.sity_id, self.sity_name, self.country, self.date, self.temp,
-                            self.weather_id))
+            cursor_wr.execute('INSERT INTO {} VALUES (?, ?, ?, ?, ?, ?)'.format(self.table_name),
+                           (sity_id, sity_name, country, date, temp, weather_id))
         except sqlite3.IntegrityError:
-            cursor.execute('UPDATE {} SET dt =?, temp =?, weather_id =?' 
-                           'WHERE sity_id =?'.format(self.table_name),(self.date,
-                                                      self.temp, self.weather_id, self.sity_id))
-        conn.commit()
-        cursor.close()
+            cursor_wr.execute('UPDATE {} SET dt =?, temp =?, weather_id =?' 
+                           'WHERE sity_id =?'.format(self.table_name),(date,
+                                                      temp, weather_id, sity_id))
+        conn_wr.commit()
+        cursor_wr.close()
+
+    def read_db(self):
+        conn_r = sqlite3.connect(self.file_name)
+        cursor_r = conn_r.cursor()
+        for row in cursor_r.execute('SELECT rowid, * FROM {} ORDER BY sity_id'.format(self.table_name)):
+            print(row)
+        conn_r.commit()
+        cursor_r.close()
+
 
 country1 = Country()
+new_base = DBase("weatherAD.txt", "weather_in_sity")
+sity1 = Sity()
 print(country1.country_list())
 country1.get_counrtyname()
-print(country1.sity_list())
-sity1 = Sity()
-sity1.get_sityname()
-forecast1 = Forecast(sity1.find_id())
-forecast1.get_apiid()
-forecast1.get_weather()
-forecast1.split_weather()
-new_base = DBase(sity1.sity_id, sity1.name, country1.name, forecast1.date, forecast1.temp, forecast1.weather_id)
-new_base.make_db()
+country1.sity_list()
 
-conn = sqlite3.connect("weather.txt")
-cursor = conn.cursor()
-for row in cursor.execute("SELECT rowid, * FROM weather_in_sity ORDER BY sity_id"):
-    print(row)
-conn.commit()
-cursor.close()
+
+for sity in country1.sty_lst:
+    sity1.name = sity
+    print(sity)
+    forecast1 = Forecast(sity1.find_id())
+    forecast1.split_weather()
+    new_base.make_db(sity1.sity_id, sity1.name, country1.name, forecast1.date, forecast1.temp, forecast1.weather_id)
+
+new_base.read_db()
+
+
