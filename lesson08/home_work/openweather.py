@@ -129,9 +129,11 @@ import sqlite3
 
 sity_id = 0
 sity_name = ''
+country = ''
 date = ''
 temp = 0
 weather_id = 0
+api_id = ''
 
 def find_id(sity_nm):
     global sity_id
@@ -145,44 +147,76 @@ def find_id(sity_nm):
        sity_id = "No sity"
     return sity_id
 
+def country_list():
+    country_lst = []
+    with open("city.list.json", "r", encoding='utf-8') as read_file:
+        for line in read_file:
+            if '"country"' in line and line[16:-3] not in country_lst and line[16:-3] is not '':
+                country_lst.append(line[16:-3])
+    country_lst.sort()
+    print(country_lst)
 
-def get_weather(sity_id):
-    html =  urllib.request.urlopen('http://samples.openweathermap.org/data/2.5/forecast?id=524901&appid=b1b15e88fa797225412429c1c50c122a1')
+def sity_list(cntry_name):
+    sity_lst =[]
+    with open("city.list.json", "r", encoding='utf-8') as read_file:
+        line_prev = ''
+        for line in read_file:
+            if cntry_name in line and line_prev[13: -3] is not '' and line_prev[13: -3] is not '-' :
+                sity_lst.append(line_prev[13: -3])
+            line_prev = line
+    sity_lst.sort()
+    return sity_lst
+
+def get_apiid():
+    with open("app.id", "r", encoding='utf-8') as read_file:
+        for line in read_file:
+            if line.startswith('=') is not True and line != ' ':
+                 global api_id
+                 api_id= line
+
+def get_weather(s_id, a_id):
+    url = 'http://api.openweathermap.org/data/2.5/weather?id={}&units=metric&appid={}'.format(s_id, a_id)
+    html =  urllib.request.urlopen(url)
     sity_weather = str(html.read())
     sity_weather = sity_weather[2:-2]
     return sity_weather
 
-def finder(string_part, spliter):
-    first_ind = sity_weather.find(string_part)
-    last_ind = sity_weather.find(spliter, first_ind)
-    return sity_weather[first_ind + len(string_part): last_ind]
+def finder(big_string, string_part, spliter):
+    first_ind = big_string.find(string_part)
+    last_ind = big_string.find(spliter, first_ind)
+    return big_string[first_ind + len(string_part): last_ind]
 
 def split_weather(sity_weather):
     global date
     global temp
     global weather_id
-    date = finder('"dt_txt":"', '"}')
-    temp = finder('"temp":', ",")
-    weather_id = finder('"weather":[{"id":', ",")
+    date = finder(sity_weather, '"dt":', ',')
+    temp = finder(sity_weather, '"temp":', ",")
+    weather_id = finder(sity_weather, '"weather":[{"id":', ",")
 
-def make_db(s_id, s_name, d, t, w_id):
-    conn = sqlite3.connect("weather.db")
+def make_db(s_id, s_name, cntry, d, t, w_id):
+    conn = sqlite3.connect("weather")
     cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS weather_in_sity (sity_id  PRIMARY KEY, sity_name text, date text, temp integer, weather_id text)")
-    cursor.execute("INSERT INTO  weather_in_sity VALUES (?, ?, ?, ?, ?)", (s_id, s_name, d, t, w_id))
+    cursor.execute('''CREATE TABLE IF NOT EXISTS weather_in_sity (sity_id  PRIMARY KEY, 
+                       sity_name TEXT, country TEXT, date TEXT, temp INTEGER, weather_id TEXT)''')
+    try:
+        cursor.execute('''INSERT INTO weather_in_sity VALUES (?, ?, ?, ?, ?, ?)''',
+                           (s_id, s_name, cntry, d, t, w_id))
+    except sqlite3.IntegrityError:
+        cursor.execute('''UPDATE weather_in_sity SET date =?, temp =?, weather_id =? 
+                           WHERE sity_id =? ''', (d, t, w_id, s_id))
     conn.commit()
-
-    for row in cursor.execute("SELECT rowid, * FROM weather_in_sity ORDER BY sity_id"):
-        print(row)
     conn.commit()
+    cursor.close()
 
-sity_name = "Militari"
-sity_id = find_id(sity_name)
-sity_weather = get_weather(65)
-split_weather(sity_weather)
+
+get_apiid()
+find_id("Sochi")
+weather_j = get_weather(sity_id, api_id)
+split_weather(weather_j)
 print(sity_id)
 print(sity_name)
 print(date)
 print(temp)
 print(weather_id)
-make_db(sity_id, sity_name, date, temp, weather_id)
+print(api_id)
