@@ -126,97 +126,140 @@ OpenWeatherMap — онлайн-сервис, который предостав�
 import json
 import urllib.request
 import sqlite3
+import time
 
-sity_id = 0
-sity_name = ''
-country = ''
-date = ''
-temp = 0
-weather_id = 0
-api_id = ''
-
-def find_id(sity_nm):
-    global sity_id
-    with open("city.list.json", "r", encoding='utf-8') as read_sity:
-        line_prew = ''
-        for line in read_sity:
-            if '"{}"'.format(sity_nm) in line:
-                sity_id = int(line_prew[10:-2])
-            line_prew = line
-    if sity_id == 0:
-       sity_id = "No sity"
-    return sity_id
-
-def country_list():
-    country_lst = []
-    with open("city.list.json", "r", encoding='utf-8') as read_file:
-        for line in read_file:
-            if '"country"' in line and line[16:-3] not in country_lst and line[16:-3] is not '':
-                country_lst.append(line[16:-3])
-    country_lst.sort()
-    print(country_lst)
-
-def sity_list(cntry_name):
-    sity_lst =[]
-    with open("city.list.json", "r", encoding='utf-8') as read_file:
-        line_prev = ''
-        for line in read_file:
-            if cntry_name in line and line_prev[13: -3] is not '' and line_prev[13: -3] is not '-' :
-                sity_lst.append(line_prev[13: -3])
-            line_prev = line
-    sity_lst.sort()
-    return sity_lst
-
-def get_apiid():
-    with open("app.id", "r", encoding='utf-8') as read_file:
-        for line in read_file:
-            if line.startswith('=') is not True and line != ' ':
-                 global api_id
-                 api_id= line
-
-def get_weather(s_id, a_id):
-    url = 'http://api.openweathermap.org/data/2.5/weather?id={}&units=metric&appid={}'.format(s_id, a_id)
-    html =  urllib.request.urlopen(url)
-    sity_weather = str(html.read())
-    sity_weather = sity_weather[2:-2]
-    return sity_weather
-
-def finder(big_string, string_part, spliter):
+def finder(big_string, string_part, splitter):
     first_ind = big_string.find(string_part)
-    last_ind = big_string.find(spliter, first_ind)
+    last_ind = big_string.find(splitter, first_ind)
     return big_string[first_ind + len(string_part): last_ind]
 
-def split_weather(sity_weather):
-    global date
-    global temp
-    global weather_id
-    date = finder(sity_weather, '"dt":', ',')
-    temp = finder(sity_weather, '"temp":', ",")
-    weather_id = finder(sity_weather, '"weather":[{"id":', ",")
+class Country:
+    name = ''
+    file_name = "city.list.json"
+    sty_lst = []
+    def get_counrtyname(self):
+        self.name = input("Input country name:")
+        return self.name
 
-def make_db(s_id, s_name, cntry, d, t, w_id):
-    conn = sqlite3.connect("weather")
-    cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS weather_in_sity (sity_id  PRIMARY KEY, 
-                       sity_name TEXT, country TEXT, date TEXT, temp INTEGER, weather_id TEXT)''')
-    try:
-        cursor.execute('''INSERT INTO weather_in_sity VALUES (?, ?, ?, ?, ?, ?)''',
-                           (s_id, s_name, cntry, d, t, w_id))
-    except sqlite3.IntegrityError:
-        cursor.execute('''UPDATE weather_in_sity SET date =?, temp =?, weather_id =? 
-                           WHERE sity_id =? ''', (d, t, w_id, s_id))
-    conn.commit()
-    conn.commit()
-    cursor.close()
+    def country_list(self):
+        country_lst = []
+        with open(self.file_name, "r", encoding='utf-8') as read_file:
+            for line in read_file:
+                if '"country"' in line and line[16:-3] not in country_lst and line[16:-3] is not '':
+                    country_lst.append(line[16:-3])
+        country_lst.sort()
+        return country_lst
+
+    def sity_list(self):
+        with open("city.list.json", "r", encoding='utf-8') as read_file:
+            line_prev = ''
+            for line in read_file:
+                if self.name in line and line_prev[13: -3] is not '' and line_prev[13: -3] is not '-':
+                    self.sty_lst.append(line_prev[13: -3])
+                line_prev = line
+        self.sty_lst.sort()
+        return self.sty_lst
+
+class Sity:
+    name = ''
+    file_name = "city.list.json"
+    sity_id = 0
+
+    def get_sityname(self):
+        self.name = input("Input sity name:")
+        return self.name
+
+    def find_id(self):
+        with open(self.file_name, "r", encoding='utf-8') as read_sity:
+            line_prew = ''
+            for line in read_sity:
+                if '"{}"'.format(self.name) in line:
+                    self.sity_id = int(line_prew[10:-2])
+                line_prew = line
+        if self.sity_id == 0:
+            self.sity_id = "No sity"
+        return self.sity_id
+
+class Forecast:
+    api_id = ''
+    weather = ''
+    date = ''
+    temp = ''
+    weather_id = ''
+
+    def __init__(self, sity_id):
+        self.sity_id = sity_id
+
+    def get_apiid(self):
+        with open("app.id", "r", encoding='utf-8') as read_file:
+            for line in read_file:
+                if line.startswith('=') is not True and line != '':
+                    self.api_id = line
 
 
-get_apiid()
-find_id("Sochi")
-weather_j = get_weather(sity_id, api_id)
-split_weather(weather_j)
-print(sity_id)
-print(sity_name)
-print(date)
-print(temp)
-print(weather_id)
-print(api_id)
+    def get_weather(self):
+        url = 'http://api.openweathermap.org/data/2.5/weather?id={}&units=metric&appid={}'.format(self.sity_id, self.api_id)
+        html = urllib.request.urlopen(url)
+        weather = str(html.read())
+        self.weather = weather[2:-2]
+        return self.weather
+
+    def split_weather(self):
+        self.date =finder(self.weather, '"dt":', ',')
+        #self.date = time.ctime(int(date))
+        self.temp = finder(self.weather, '"temp":', ",")
+        self.weather_id = finder(self.weather, '"weather":[{"id":', ",")
+        return self.date, self.temp, self.weather_id
+
+class DBase:
+    file_name = "weather.txt"
+    table_name = "weather_in_sity"
+    sity_id =''
+    sity_name=''
+    country=''
+    date=''
+    temp = ''
+    weather_id = ''
+    def __init__(self, sity_id, sity_name, country, date, temp, weather_id):
+        self.sity_id = sity_id
+        self.sity_name = sity_name
+        self.country = country
+        self.date = date
+        self.temp = temp
+        self.weather_id = weather_id
+
+    def make_db(self):
+        conn = sqlite3.connect(self.file_name)
+        cursor = conn.cursor()
+        cursor.execute('CREATE TABLE IF NOT EXISTS {} (sity_id  PRIMARY KEY, sity_name VARCHAR, '
+                       'country VARCHAR, dt VARCHAR, temp INTEGER, weather_id VARCHAR)'.format(self.table_name))
+        try:
+            cursor.execute('INSERT INTO {} VALUES (?, ?, ?, ?, ?, ?)'.format(self.table_name),
+                           (self.sity_id, self.sity_name, self.country, self.date, self.temp,
+                            self.weather_id))
+        except sqlite3.IntegrityError:
+            cursor.execute('UPDATE {} SET dt =?, temp =?, weather_id =?' 
+                           'WHERE sity_id =?'.format(self.table_name),(self.date,
+                                                      self.temp, self.weather_id, self.sity_id))
+        conn.commit()
+        cursor.close()
+
+country1 = Country()
+print(country1.country_list())
+country1.get_counrtyname()
+print(country1.sity_list())
+sity1 = Sity()
+sity1.get_sityname()
+forecast1 = Forecast(sity1.find_id())
+forecast1.get_apiid()
+forecast1.get_weather()
+forecast1.split_weather()
+new_base = DBase(sity1.sity_id, sity1.name, country1.name, forecast1.date, forecast1.temp, forecast1.weather_id)
+new_base.make_db()
+
+conn = sqlite3.connect("weather.txt")
+cursor = conn.cursor()
+for row in cursor.execute("SELECT rowid, * FROM weather_in_sity ORDER BY sity_id"):
+    print(row)
+conn.commit()
+cursor.close()
