@@ -20,28 +20,5 @@
 
 """
 
-import csv
-import json
-import urllib.request
-
-
-def find_id(sity_name):
-    with open("city.list.json", "r", encoding='utf-8') as read_sity:
-        line_prew = ''
-        sity_id = ''
-        for line in read_sity:
-            if '"{}"'.format(sity_name) in line:
-                sity_id = line_prew[10:-2]
-            line_prew = line
-    if sity_id is '':
-       sity_id = "No sity"
-    return sity_id
-
-
-def get_weather(sity_id):
-    html =  urllib.request.urlopen('http://samples.openweathermap.org/data/2.5/forecast?id=524901&appid=b1b15e88fa797225412429c1c50c122a1')
-    f = html.read()
-    print(f)
-
 
 

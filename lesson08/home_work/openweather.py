@@ -122,4 +122,67 @@ OpenWeatherMap — онлайн-сервис, который предостав�
         ...
 
 """
+#import csv
+import json
+import urllib.request
+import sqlite3
 
+sity_id = 0
+sity_name = ''
+date = ''
+temp = 0
+weather_id = 0
+
+def find_id(sity_nm):
+    global sity_id
+    with open("city.list.json", "r", encoding='utf-8') as read_sity:
+        line_prew = ''
+        for line in read_sity:
+            if '"{}"'.format(sity_nm) in line:
+                sity_id = int(line_prew[10:-2])
+            line_prew = line
+    if sity_id == 0:
+       sity_id = "No sity"
+    return sity_id
+
+
+def get_weather(sity_id):
+    html =  urllib.request.urlopen('http://samples.openweathermap.org/data/2.5/forecast?id=524901&appid=b1b15e88fa797225412429c1c50c122a1')
+    sity_weather = str(html.read())
+    sity_weather = sity_weather[2:-2]
+    return sity_weather
+
+def finder(string_part, spliter):
+    first_ind = sity_weather.find(string_part)
+    last_ind = sity_weather.find(spliter, first_ind)
+    return sity_weather[first_ind + len(string_part): last_ind]
+
+def split_weather(sity_weather):
+    global date
+    global temp
+    global weather_id
+    date = finder('"dt_txt":"', '"}')
+    temp = finder('"temp":', ",")
+    weather_id = finder('"weather":[{"id":', ",")
+
+def make_db(s_id, s_name, d, t, w_id):
+    conn = sqlite3.connect("weather.db")
+    cursor = conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS weather_in_sity (sity_id  PRIMARY KEY, sity_name text, date text, temp integer, weather_id text)")
+    cursor.execute("INSERT INTO  weather_in_sity VALUES (?, ?, ?, ?, ?)", (s_id, s_name, d, t, w_id))
+    conn.commit()
+
+    for row in cursor.execute("SELECT rowid, * FROM weather_in_sity ORDER BY sity_id"):
+        print(row)
+    conn.commit()
+
+sity_name = "Militari"
+sity_id = find_id(sity_name)
+sity_weather = get_weather(65)
+split_weather(sity_weather)
+print(sity_id)
+print(sity_name)
+print(date)
+print(temp)
+print(weather_id)
+make_db(sity_id, sity_name, date, temp, weather_id)
