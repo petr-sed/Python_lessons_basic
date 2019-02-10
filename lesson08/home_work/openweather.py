@@ -161,23 +161,25 @@ class Country:
         return self.sty_lst
 
 class Sity:
-    name = ''
+    name = []
     file_name = "city.list.json"
     sity_id = 0
 
     def get_sityname(self):
-        self.name = input("Input sity name:")
+        for word in input().split():
+            self.name.append(word.rstrip(','))
         return self.name
 
-    def find_id(self):
+    def find_id(self, sity_name):
         with open(self.file_name, "r", encoding='utf-8') as read_sity:
             line_prew = ''
             for line in read_sity:
-                if '"{}"'.format(self.name) in line:
-                    self.sity_id = int(line_prew[10:-2])
+                if '"{}"'.format(sity_name) in line:
+                    self.sity_id = (line_prew[10:-2])
                 line_prew = line
         if self.sity_id == 0:
-            self.sity_id = "No sity"
+            print("No sity")
+            exit(0)
         return self.sity_id
 
 class Forecast:
@@ -201,7 +203,7 @@ class Forecast:
         url = 'http://api.openweathermap.org/data/2.5/weather?id={}&units=metric&appid={}'.format(self.sity_id, self.api_id)
         html = urllib.request.urlopen(url)
         weather = str(html.read())
-        self.weather = weather[2:-2]
+        self.weather = (weather[2:-2])
         return self.weather
 
     def split_weather(self):
@@ -251,15 +253,12 @@ new_base = DBase("weatherAD.txt", "weather_in_sity")
 sity1 = Sity()
 print(country1.country_list())
 country1.get_counrtyname()
-country1.sity_list()
-
-
-for sity in country1.sty_lst:
-    sity1.name = sity
-    print(sity)
-    forecast1 = Forecast(sity1.find_id())
+print(country1.sity_list())
+for sity in sity1.get_sityname():
+    ind = sity1.name.index(sity)
+    forecast1 = Forecast(sity1.find_id(sity))
     forecast1.split_weather()
-    new_base.make_db(sity1.sity_id, sity1.name, country1.name, forecast1.date, forecast1.temp, forecast1.weather_id)
+    new_base.make_db(sity1.sity_id, sity1.name[ind], country1.name, forecast1.date, forecast1.temp, forecast1.weather_id)
 
 new_base.read_db()
 
