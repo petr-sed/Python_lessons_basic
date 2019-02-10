@@ -138,7 +138,7 @@ class Country:
     file_name = "city.list.json"
     sty_lst = []
     def get_counrtyname(self):
-        self.name = input("Input country name:")
+        self.name = input("Input country name:").upper()
         return self.name
 
     def country_list(self):
@@ -167,7 +167,7 @@ class Sity:
 
     def get_sityname(self):
         for word in input().split():
-            self.name.append(word.rstrip(','))
+            self.name.append(word.rstrip(',').capitalize())
         return self.name
 
     def find_id(self, sity_name):
